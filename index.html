@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 февраля</title>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital@0;1&display=swap" rel="stylesheet"> <!-- Подключаем шрифт Balsamiq Sans -->
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Скрываем скролл */
+            background-color: #660096; /* Цвет фона */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Выравнивание по центру */
+            flex-direction: column; /* Вертикальная ориентация */
+            height: 100vh; /* Высота окна браузера */
+            font-family: 'Balsamiq Sans', sans-serif; /* Устанавливаем шрифт Balsamiq Sans */
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -100px; /* Начальная позиция снизу */
+            width: 50px; /* Ширина сердца */
+            height: 50px; /* Высота сердца */
+            background-color: red; /* Цвет сердца */
+            transform: rotate(-45deg); /* Поворачиваем квадрат */
+            animation: rise 3s ease-in forwards; /* Анимация */
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Свечение */
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 50px; /* Ширина круга */
+            height: 50px; /* Высота круга */
+            background-color: red; /* Цвет круга */
+            border-radius: 50%; /* Делаем круги */
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Свечение для кругов */
+        }
+
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 50px; /* Ширина круга */
+            height: 50px; /* Высота круга */
+            background-color: red; /* Цвет круга */
+            border-radius: 50%; /* Делаем круги */
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Свечение для кругов */
+        }
+
+        .heart::before {
+            top: -25px; /* Позиция верхнего круга */
+            left: 0;
+        }
+
+        .heart::after {
+            left: 25px; /* Позиция правого круга */
+            top: 0;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(-45deg); /* Поднимаем строго вверх */
+                opacity: 0; /* Растворяем */
+            }
+        }
+
+        .text-container {
+            position: relative; /* Для позиционирования текста */
+            z-index: 1; /* Убедимся, что текст выше сердец */
+            text-align: center; /* Центрируем текст */
+        }
+
+        .main-title {
+            font-size: 48px; /* Размер основного текста */
+            font-weight: 600; /* Жирность шрифта */
+            color: #ff53d4; /* Цвет текста */
+            margin: 0; /* Убираем отступы */
+            transition: opacity 0.3s ease; /* Плавный переход для эффекта вспышки */
+        }
+
+        .sub-title {
+            font-size: 24px; /* Размер подзаголовка */
+            font-weight: 300; /* Легкий шрифт */
+            color: #d89ed5; /* Цвет текста */
+            margin-top: 5px; /* Уменьшаем интервал между текстами */
+            transition: opacity 0.3s ease; /* Плавный переход для эффекта вспышки */
+        }
+
+        .fade-out {
+            opacity: 0; /* Прозрачность для эффекта */
+        }
+    </style>
+</head>
+<body>
+    <div class="text-container">
+        <h1 class="main-title" id="main-title">Нажми чтоле</h1>
+        <p class="sub-title" id="sub-title"> </p>
+    </div>
+    <script>
+        const titles = [
+        
+    { "main": "", "sub": "оаоаоаоаоаоаоа" },
+    { "main": "С празднакам!", "sub": "ОААООА лоаоао, ааааоао, оаоаоа, ааааоао, аааао, оааа, оаааоаоа, оаааоаоа, оаоаоаоаоа, ааааоаоао, оаааоаоа, ааааоаоа, ааааоаоа, оаааоаоа, оаааоаоа, оаааоаоа, оаааоаоа." },
+    { "main": "Моаоа", "sub": "оа ааааоаоа оаааоа, с оаааоа ааааоаоа, оа оааао оаааоа, оаааоа оаааоа, оааа оааа оааа:)" },
+    { "main": "Хоа оа не аааа", "sub": "оаоаоаоаоаоа оааао, оа а ааоа оааа оааа, оа оааа оа аааа аааа аааа оааа аааа оааа аааа оа ааааоаоа. О ааоа оаааоаоа оааа оааа оааа)" },
+    { "main": "а", "sub": "оааа оа оааао оааа оа аааа:( , оаоа оааа оа аааа оааа ааааоа..." },
+    { "main": "Еоа аааа", "sub": "оа оаоаоао, оаааоао. Оааа оа оааа, оааа оааа, оааа оааа, оааа оааа оааа❤ " },
+    { "main": "оаоао", "sub": "оа!!!" }
+
+        ];
+
+        let currentIndex = 0;
+        let heartInterval; // Переменная для хранения интервала
+
+        function changeText() {
+            const mainTitle = document.getElementById('main-title');
+            const subTitle = document.getElementById('sub-title');
+
+            // Добавляем класс для эффекта вспышки
+            mainTitle.classList.add('fade-out');
+            subTitle.classList.add('fade-out');
+
+            // Ждем окончания анимации перед сменой текста
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % titles.length; // Переход к следующему индексу
+                mainTitle.textContent = titles[currentIndex].main; // Изменяем основной текст
+                subTitle.textContent = titles[currentIndex].sub; // Изменяем подзаголовок
+
+                // Убираем класс для возврата к нормальному состоянию
+                mainTitle.classList.remove('fade-out');
+                subTitle.classList.remove('fade-out');
+            }, 300); // Время совпадает с временем анимации
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 100}vw`; // Позиция по горизонтали
+            document.body.appendChild(heart);
+
+            // Удаляем сердце после завершения анимации
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Обработчик события нажатия на экран
+        document.body.addEventListener('click', () => {
+            changeText();
+            if (!heartInterval) {
+                heartInterval = setInterval(createHeart, 500); // Запускаем создание сердец
+            }
+        });
+    </script>
+</body>
+</html>
